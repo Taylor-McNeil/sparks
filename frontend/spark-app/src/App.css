@@ -1,0 +1,56 @@
+
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --toast-bg: #f0f0f0;
+  }
+  
+  [data-theme="dark"] {
+    --bg: #121212;
+    --text: #f5f5f5;
+    --toast-bg: #333;
+  }
+  
+  [data-theme="spacey"] {
+    --bg: #081b33;
+    --text: #cde7ff;
+    --toast-bg: #1a2a40;
+  }
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--text);
+   
+  }
+
+
+.dashboard{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "form form"
+    "weekly-goals misc"
+    "goal-review goal-review";
+    
+
+}
+
+.goal-form{
+    grid-area:form
+}
+
+.weekly-goals{
+    grid-area: weekly-goals
+}
+
+.misc{
+    grid-area: misc
+}
+
+.goal-review{
+    grid-area: goal-review
+}

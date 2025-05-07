@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+.env.local
+
+# Vite
+*.log
+*.DS_Store
+
+/references

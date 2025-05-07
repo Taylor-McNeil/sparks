@@ -1,0 +1,70 @@
+import React, {useState} from "react";
+import { v4 as uuidv4 } from 'uuid';
+import {formatDate} from "../services/utils.js";
+import {addGoal as apiAddGoal } from "../services/api.js";
+import useGoalStore from "../store/useGoalStore.js";
+
+export default function GoalForm() {
+
+    const [inputValue, setInputValue] = useState("");
+    const [showNotes, setNotes] = useState(false);
+    const {addGoal} = useGoalStore();
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+      
+        const newGoal = {
+          id: uuidv4(),
+          goal_context: formData.get("goal-context"),
+          is_completed: false,
+          category: formData.get("category"),
+          memo: formData.get("notes") || "",
+          date_attempted: formatDate()
+        }
+      
+        apiAddGoal("1", newGoal)
+          .then((createdGoal) => {
+            addGoal(createdGoal)
+            e.target.reset()
+            setInputValue("")
+            setNotes(false)
+          })
+          .catch((err) => console.error("Error adding goal:", err))
+      }
+
+    function handleInputChange(e){
+        setInputValue(e.target.value);
+    }
+
+    function toggleNotes(e){
+        e.preventDefault();
+        setNotes(!showNotes);
+    }
+
+    return(
+    <div className="goal-form">
+        <form onSubmit={handleSubmit}>
+            <input type="text" value={inputValue} onChange={handleInputChange} name="goal-context" />
+            <label>What Category is this goal?
+            <select name="category">
+                <option value ="Fitness">Fitness</option>
+                <option value ="Finance">Finance</option>
+                <option value ="Learning">Learning</option>
+            </select>
+            </label>
+
+            <button onClick={toggleNotes}>Add Notes</button>
+            
+            {showNotes && (
+                <label>
+                
+                    <textarea name="notes" placeholder="Add notes here..."/>
+                    </label>
+                    )}
+
+            <button type="submit">Add Goal</button>
+            
+        </form>
+    </div>)
+}
