@@ -12,6 +12,16 @@ export async function getGoals(){
     }
 }
 
+export async function getGoalById(userId,goalId) {
+    try {
+      const response = await axios.get(`${BASE_URL}/goals/${userId}/${goalId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching goal by ID", error);
+      throw error;
+    }
+  }
+
 export async function addGoal(userId,newGoal){
     try{
         const  response = await axios.post(`${BASE_URL}/goals/${userId}`, newGoal);
@@ -22,9 +32,9 @@ export async function addGoal(userId,newGoal){
     }
 }
 
-export async function editGoal(userId,goalId,context){
+export async function editGoal(userId,goalId,newContext){
     try{
-        const response = await axios.patch(`${BASE_URL}/goals/${userId}/${goalId}`,{context:context})
+        const response = await axios.patch(`${BASE_URL}/goals/${userId}/${goalId}`,newContext)
         return response.data
     }catch(error){
         console.error("Error updating goal", error);

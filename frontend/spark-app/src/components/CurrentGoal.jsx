@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { editGoal as apiEditGoal, deleteGoal as apiDeleteGoal } from "../services/api";
 import useGoalStore from "../store/useGoalStore";
 
 
 export default function CurrentGoal({goal}){
     const [isEditing,setIsEditing] = useState(false);
     const [inputValue,setInputValue] = useState("");
-    const { updateGoal, deleteGoal } = useGoalStore();
+    const { updateGoal, deleteGoal, toggleCompletion } = useGoalStore();
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -21,18 +20,12 @@ export default function CurrentGoal({goal}){
         setIsEditing(true)
     }
 
-    function triggerDelete(){
-        apiDeleteGoal("1",goal.id)
-        .then((goalList) => {
-          if(goalList){
-            deleteGoal(goalList)
-          }else{
-            console.error("Error on backend, goal_id doesnt exist or db not pulled")
-          }
-        }) .catch((err) => 
-          console.error("Error deleting goal:", err))
-     
-    }
+    
+
+    function triggerDelete() {
+      deleteGoal(goal.id)
+        .catch((err) => console.error("Error deleting goal:", err));
+    }    
 
     function updateInputValue(e){
         setInputValue(e.target.value)
@@ -49,23 +42,17 @@ export default function CurrentGoal({goal}){
     }
 
     function handleSubmission() {
-        if (inputValue.trim() === goal.goal_context || inputValue.trim()==="") {
+      const trimmed = inputValue.trim()
+        if (trimmed === goal.goal_context || trimmed ==="") {
           setIsEditing(false)
-          return
+          return;
         }
       
-        apiEditGoal("1", goal.id, inputValue)
-          .then((updatedGoal) => {
-            if (updatedGoal) {
-              updateGoal(updatedGoal)
-            } else {
-              console.error("Goal not found on backend.")
-            }
-            setIsEditing(false)
-          })
-          .catch((err) => console.error("Error updating goal:", err))
-      }
-      
+        updateGoal(goal.id, { goal_context: trimmed })
+        .then(() => {
+          setIsEditing(false);
+        }) . catch((err) => console.error("Error updating goal:",err))
+    }
     
 
     return(
@@ -83,7 +70,19 @@ export default function CurrentGoal({goal}){
             </div>
             : 
            <div>
-            <p>{goal.goal_context}</p>
+            <p>
+              <input type="checkbox"
+                     checked = {goal.is_completed}
+                     onChange={() => toggleCompletion(goal.id)}
+              />
+              <span className={goal.is_completed ? "completed-text" : ""}>
+                              {goal.goal_context}
+              </span>
+              
+              </p>
+
+            
+
             <button onClick={toggleEdit}>Edit</button>
             <button onClick={triggerDelete}>Delete</button>
             </div>

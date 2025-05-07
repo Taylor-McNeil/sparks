@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 import {formatDate} from "../services/utils.js";
-import {addGoal as apiAddGoal } from "../services/api.js";
 import useGoalStore from "../store/useGoalStore.js";
+import toast from 'react-hot-toast';
 
 export default function GoalForm() {
 
@@ -23,14 +23,17 @@ export default function GoalForm() {
           date_attempted: formatDate()
         }
       
-        apiAddGoal("1", newGoal)
-          .then((createdGoal) => {
-            addGoal(createdGoal)
+        addGoal(newGoal)
+          .then(() => {
             e.target.reset()
+            toast.success('🎯 Goal added!');
             setInputValue("")
             setNotes(false)
           })
-          .catch((err) => console.error("Error adding goal:", err))
+          .catch((err) => {
+            console.error("Error adding goal:", err);
+            toast.error('❌ Could not add goal.');
+        });
       }
 
     function handleInputChange(e){

@@ -51,26 +51,30 @@ def create_goal(userId:str, goal: dict):
         json.dump(goals_db, f, indent=4)
      return goal    
 
-# Consider editing this to allow for a full patch / replace the entire object, not just the context
-# But that would require updating how this function is called on the frontend
-
 @app.patch("/goals/{userId}/{goalId}")
-def update_goal(userId:str, goalId:str, data:dict=Body(...)):
-    context = data.get("context")
+def update_goal(userId: str, goalId: str, data: dict = Body(...)):
     updated_goal = None
     file_path = Path(__file__).parent / "./data/goals.json"
+
     with open(file_path, "r") as f:
         goals_db = json.load(f)
+
     for goal in goals_db:
         if goal.get("id") == goalId:
-            goal["goal_context"] = context
+            for key, value in data.items():
+                if key in goal:
+                    goal[key] = value
             updated_goal = goal
             break
+
     with open(file_path, "w") as f:
-        json.dump(goals_db, f, indent=4)    
+        json.dump(goals_db, f, indent=4)
+
     if updated_goal is None:
-        raise HTTPException(status_code=404, detail="Goal not found")
+        raise HTTPException(status_code=404, detail="Goal not found")   
+   
     return updated_goal
+
 
 
 @app.delete("/goals/{userId}/{goalId}")
@@ -85,12 +89,18 @@ def delete_goal(userId:str,goalId:str):
      return updated_goal_list
 
 
+@app.get("/goals/{userId}/{goalId}")
+def get_goal(goalId:str):
+    file_path = Path(__file__).parent / "./data/goals.json"
 
-'''
-my_list = [{'id': 1, 'name': 'A'}, {'id': 2, 'name': 'B'}, {'id': 3, 'name': 'C'}]
-item_to_remove = 2
-my_list[:] = [d for d in my_list if d.get('id') != item_to_remove]
-print(my_list)  # Output: [{'id': 1, 'name': 'A'}, {'id': 3, 'name': 'C'}]
+    with open(file_path, "r") as f:
+        goals_db = json.load(f)
 
+    for goal in goals_db:
+        if goal.get("id") == goalId:
+            return goal
 
-'''
+    raise HTTPException(status_code=404, detail="Goal not found")
+
+    
+

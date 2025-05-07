@@ -107,5 +107,29 @@
         "category": "Fitness",
         "memo": "lalalala",
         "date_attempted": "2025-04-10"
+    },
+    {
+        "id": "e7c2a68f-7a66-4ca6-abb7-8b72234330a5",
+        "goal_context": "This is so interesting ll",
+        "is_completed": false,
+        "category": "Fitness",
+        "memo": "",
+        "date_attempted": "2025-05-07"
+    },
+    {
+        "id": "53ea495f-32f5-4d00-82e1-95a205c30526",
+        "goal_context": "Learning about Toast",
+        "is_completed": false,
+        "category": "Fitness",
+        "memo": "",
+        "date_attempted": "2025-05-07"
+    },
+    {
+        "id": "3cbe2384-06a2-494b-a156-fe460e21ffd2",
+        "goal_context": "Toast w/space vibes",
+        "is_completed": false,
+        "category": "Fitness",
+        "memo": "",
+        "date_attempted": "2025-05-07"
     }
 ]

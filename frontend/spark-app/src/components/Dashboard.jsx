@@ -73,34 +73,3 @@ function handleChange(e){
     )
 }
 
- /*   useEffect(() =>{
-        async function fetchGoals(){
-            try{
-                const data = await getGoals();
-                setGoals(data);
-            } catch (error) {
-                console.error("Error fetching goals:", error);
-            }
-        }
-        fetchGoals();
-     },[]) */
-
-
-
-  /*
-  function onAddGoal(createdGoal){
-   
-    setGoals(prevGoals =>[...prevGoals, createdGoal]);
-    console.log(goals)
- } 
-
- function onUpdateGoal(updatedGoal){
-    setGoals(prevGoals => prevGoals.map(goal =>
-        goal.id === updatedGoal.id ? updatedGoal : goal
-    ))
- }
-
- function onDeleteGoal(goalList){
-    setGoals(goalList)
- }
-    */
