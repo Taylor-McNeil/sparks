@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import useGoalStore from "../store/useGoalStore";
+import toast from 'react-hot-toast';
+import {ClipLoader} from 'react-spinners';
+
 
 
 export default function CurrentGoal({goal}){
     const [isEditing,setIsEditing] = useState(false);
     const [inputValue,setInputValue] = useState("");
-    const { updateGoal, deleteGoal, toggleCompletion } = useGoalStore();
+    const { updateGoal, deleteGoal, toggleCompletion, loading } = useGoalStore();
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -23,8 +26,11 @@ export default function CurrentGoal({goal}){
     
 
     function triggerDelete() {
-      deleteGoal(goal.id)
-        .catch((err) => console.error("Error deleting goal:", err));
+      deleteGoal(goal.id).then(() => {
+        toast.success("Goal deleted")
+      })
+        .catch((err) => {console.error("Error deleting goal:", err);
+        toast.error(' Could not delete goal.')});
     }    
 
     function updateInputValue(e){
@@ -51,7 +57,11 @@ export default function CurrentGoal({goal}){
         updateGoal(goal.id, { goal_context: trimmed })
         .then(() => {
           setIsEditing(false);
-        }) . catch((err) => console.error("Error updating goal:",err))
+          toast.success("Goal edited")
+        }) . catch((err) => {
+          console.error("Error updating goal:",err)
+          toast.error("Error editing goal")
+        })
     }
     
 
@@ -83,8 +93,17 @@ export default function CurrentGoal({goal}){
 
             
 
-            <button onClick={toggleEdit}>Edit</button>
-            <button onClick={triggerDelete}>Delete</button>
+            <button onClick={toggleEdit}
+                    disabled = {loading.edit === goal.id}>
+            {loading.edit === goal.id ? (
+              <ClipLoader size={4} color="#fff" />
+            ):("Edit")} </button>
+
+            <button onClick={triggerDelete}
+                    disabled = {loading.delete === goal.id}>
+                {loading.delete === goal.id ? (
+                 <ClipLoader size={4} color="#fffff" />
+                 ) :("Delete")} </button>
             </div>
             }
 

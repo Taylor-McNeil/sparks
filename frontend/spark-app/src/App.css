@@ -1,8 +1,8 @@
 
 :root {
-    --bg: #ffffff;
+    --bg: #fefae0;
     --text: #000000;
-    --toast-bg: #f0f0f0;
+    --toast-bg: #faedcd;
   }
   
   [data-theme="dark"] {

@@ -12,6 +12,13 @@ const USER_ID = "1"; // Hardcoded for now —
 
 const useGoalStore = create((set) =>  ({
     goals: [],
+    loading: {
+        add: false,
+        delete: null,
+        edit: null,
+    },
+
+
     fetchGoals: async () =>{
         try{
             const data = await getGoals();
@@ -22,6 +29,9 @@ const useGoalStore = create((set) =>  ({
     },
 
     addGoal:async (newGoal) => {
+        set((state) => ({
+            loading: {...state.loading, add:true}
+        }));
         try{
             const createdGoal = await apiAddGoal(USER_ID,newGoal);
             set((state) => ({
@@ -31,11 +41,18 @@ const useGoalStore = create((set) =>  ({
         }catch(error){
             console.error("Error in Zustand addGoal")
             throw error;
+        } finally{
+            set((state) => ({
+                loading: { ...state.loading, add: false },
+              }));
         }
     },
            
 
     updateGoal: async (goalId, newContext) => {
+        set((state) =>({
+            loading:{...state.loading,edit:goalId}
+        }))
         try {
           const updatedGoal = await apiEditGoal(USER_ID, goalId, newContext);
           set((state) => ({
@@ -46,12 +63,16 @@ const useGoalStore = create((set) =>  ({
         } catch (error) {
           console.error("Error in Zustand updateGoal", error);
           throw error;
+        } finally{
+            set((state) =>({
+                loading:{...state.loading,edit:null}
+            }))
         }
       },
         
       deleteGoal: async (goalId) => {
-        try {
-            const {goals} = get();
+        set(state => ({ loading: {...state.loading, delete:goalId}}))
+        try { 
           await apiDeleteGoal(USER_ID, goalId); 
           set((state) => ({
             goals: state.goals.filter((goal) => goal.id !== goalId),
@@ -59,6 +80,8 @@ const useGoalStore = create((set) =>  ({
         } catch (error) {
           console.error("Error in Zustand deleteGoal", error);
           throw error; 
+        } finally{
+            set(state =>({loading: {...state.loading, delete:null}}))
         }
       },
 

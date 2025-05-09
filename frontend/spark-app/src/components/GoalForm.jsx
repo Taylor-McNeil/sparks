@@ -3,12 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import {formatDate} from "../services/utils.js";
 import useGoalStore from "../store/useGoalStore.js";
 import toast from 'react-hot-toast';
+import {ClipLoader} from 'react-spinners';
 
 export default function GoalForm() {
 
     const [inputValue, setInputValue] = useState("");
     const [showNotes, setNotes] = useState(false);
-    const {addGoal} = useGoalStore();
+    const {addGoal,loading} = useGoalStore();
+
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -26,13 +28,13 @@ export default function GoalForm() {
         addGoal(newGoal)
           .then(() => {
             e.target.reset()
-            toast.success('🎯 Goal added!');
+            toast.success('Goal added!');
             setInputValue("")
             setNotes(false)
           })
           .catch((err) => {
             console.error("Error adding goal:", err);
-            toast.error('❌ Could not add goal.');
+            toast.error('Could not add goal.');
         });
       }
 
@@ -48,6 +50,12 @@ export default function GoalForm() {
     return(
     <div className="goal-form">
         <form onSubmit={handleSubmit}>
+            {loading.add && (
+                <div className="spinner-wrap">
+                    <ClipLoader size={20} color="var(--toast-bg)" />
+                </div>
+            )}
+
             <input type="text" value={inputValue} onChange={handleInputChange} name="goal-context" />
             <label>What Category is this goal?
             <select name="category">
