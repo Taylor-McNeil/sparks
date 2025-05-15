@@ -25,7 +25,7 @@ export async function getGoalById(userId,goalId) {
 export async function addGoal(userId,newGoal){
     try{
         // Simulating a delay to show the loading toasts
-        await new Promise ((r) => setTimeout(r,2000));
+        //await new Promise ((r) => setTimeout(r,2000));
         const  response = await axios.post(`${BASE_URL}/goals/${userId}`, newGoal);
         return response.data;
     }catch (error){
@@ -36,7 +36,7 @@ export async function addGoal(userId,newGoal){
 
 export async function editGoal(userId,goalId,newContext){
     try{
-        await new Promise ((r) => setTimeout(r,2000));
+        //await new Promise ((r) => setTimeout(r,2000));
         const response = await axios.patch(`${BASE_URL}/goals/${userId}/${goalId}`,newContext)
         return response.data
     }catch(error){
@@ -49,7 +49,7 @@ export async function editGoal(userId,goalId,newContext){
 export async function deleteGoal(userId,goalId){
     try{
         // Simulating a delay to show the loading toasts
-        await new Promise ((r) => setTimeout(r,2000));
+        //await new Promise ((r) => setTimeout(r,2000));
         const response = await axios.delete(`${BASE_URL}/goals/${userId}/${goalId}`)
         return response.data
     }

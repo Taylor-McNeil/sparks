@@ -85,19 +85,17 @@ const useGoalStore = create((set) =>  ({
         }
       },
 
-      toggleCompletion: async (goalId) => {
+      toggleCompletion: async (goalId, is_completed) => {
+
+        set((state) => ({
+          goals: state.goals.map((goal) =>
+            goal.id === goalId ? {...goal,is_completed:is_completed} : goal
+          ),
+        }));
         try {
-          const goal = await apiGetGoalById(USER_ID,goalId)
-      
           const updatedGoal = await apiEditGoal(USER_ID, goalId, {
-            is_completed: !goal.is_completed,
+            is_completed: is_completed
           });
-      
-          set((state) => ({
-            goals: state.goals.map((g) =>
-              g.id === goalId ? updatedGoal : g
-            ),
-          }));
         } catch (error) {
           console.error("Error toggling completion", error);
         }

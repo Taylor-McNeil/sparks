@@ -18,6 +18,9 @@ export default function Dashboard() {
    const { theme, setTheme } = useUIStore();
    const notify = () => toast('Theme Changed <3.');
  
+
+
+
 // 📡 2. Fetch data
 
      useEffect(() => {
@@ -53,21 +56,14 @@ function handleChange(e){
         },
       }}
     />
-
-
-
-          <div className="dashboard-header">
-          <select value={theme} onChange={handleChange}>
-            <option value="light">☀️ Light</option>
-            <option value="dark">🌙 Dark</option>
-            <option value="spacey">🪐 Spacey</option>
-        </select>
-              </div>
-        
-            <GoalForm className="GoalForm" />
             <WeeklyGoals goals={currentWeekGoals}/>
             <Misc/>
             <GoalReview goals={pastGoals}/>
+            <select value={theme} onChange={handleChange}>
+              <option value="light">☀️ Light</option>
+              <option value="dark">🌙 Dark</option>
+              <option value="spacey">🪐 Spacey</option>
+            </select>
 
         </div>
     )

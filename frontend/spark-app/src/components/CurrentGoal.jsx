@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import useGoalStore from "../store/useGoalStore";
 import toast from 'react-hot-toast';
 import {ClipLoader} from 'react-spinners';
+import { Button, Checkbox, Flex, Group } from "@mantine/core";
+import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faEdit, faTrash, faCheck} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -66,49 +69,74 @@ export default function CurrentGoal({goal}){
     
 
     return(
-        <div className="goal" id={goal.id}>
-           {isEditing ?
-           <div>
-           <input
-              ref={inputRef}
-              value={inputValue} 
-              onChange={updateInputValue} 
-              onKeyDown={handleKeyDown}
-              onBlur={handleBlur} 
-            />
-            <button onMouseDown={handleSubmission}>Enter</button>
-            </div>
-            : 
-           <div>
-            <p>
-              <input type="checkbox"
-                     checked = {goal.is_completed}
-                     onChange={() => toggleCompletion(goal.id)}
-              />
-              <span className={goal.is_completed ? "completed-text" : ""}>
-                              {goal.goal_context}
-              </span>
-              
-              </p>
+<div className="goal" id={goal.id}>
+  {isEditing ? (
+    <div>
+      <Group justify="space-between" align="center">
+        <input
+          ref={inputRef}
+          value={inputValue}
+          onChange={updateInputValue}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+        />
+        <Button
+          variant="outline"
+          size="xs"
+          color="lime"
+          style={{ padding: "4px 8px" }} 
+          onMouseDown={handleSubmission}>
+          <FontAwesomeIcon icon={faCheck} />
+        </Button>
+      </Group>
+    </div>
+  ) : (
+    <Flex align="center" gap="xs" style={{ width: "100%", minWidth:"0" }}>
+      <Checkbox
+        checked={goal.is_completed}
+        onChange={(event) => toggleCompletion(goal.id, event.currentTarget.checked)}
+      />
 
-            
+      <span style={{ flexGrow: 1, overflowWrap:'break-word' }}>
+        <span className={goal.is_completed ? "completed-text" : ""}>
+          {goal.goal_context}
+        </span>
+      </span>
 
-            <button onClick={toggleEdit}
-                    disabled = {loading.edit === goal.id}>
-            {loading.edit === goal.id ? (
-              <ClipLoader size={4} color="#fff" />
-            ):("Edit")} </button>
+      <Flex gap="xs" justify="flex-end" wrap="nowrap" align="center" >
+        <Button
+          variant="outline"
+          size="xs"
+          color="lime"
+          style={{ padding: "4px 8px" }}
+          onClick={toggleEdit}
+          disabled={loading.edit === goal.id}
+        >
+          {loading.edit === goal.id ? (
+            <ClipLoader size={4} color="#fff" />
+          ) : (
+            <FontAwesomeIcon icon={faEdit} />
+          )}
+        </Button>
 
-            <button onClick={triggerDelete}
-                    disabled = {loading.delete === goal.id}>
-                {loading.delete === goal.id ? (
-                 <ClipLoader size={4} color="#fffff" />
-                 ) :("Delete")} </button>
-            </div>
-            }
-
-          
-           
-        </div>
-    )
-}
+        <Button
+          variant="outline"
+          size="xs"
+          color="lime"
+          style={{ padding: "4px 8px" }}
+          onClick={triggerDelete}
+          disabled={loading.delete === goal.id}
+        >
+          {loading.delete === goal.id ? (
+            <ClipLoader size={4} color="#fff" />
+          ) : (
+            <FontAwesomeIcon icon={faTrash} />
+          )}
+        </Button>
+      </Flex>
+    </Flex>
+  )}
+</div>
+        )
+    }
+    

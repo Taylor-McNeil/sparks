@@ -4,8 +4,9 @@ import {formatDate} from "../services/utils.js";
 import useGoalStore from "../store/useGoalStore.js";
 import toast from 'react-hot-toast';
 import {ClipLoader} from 'react-spinners';
+import { Button } from "@mantine/core";
 
-export default function GoalForm() {
+export default function GoalForm({closeModal}) {
 
     const [inputValue, setInputValue] = useState("");
     const [showNotes, setNotes] = useState(false);
@@ -31,6 +32,7 @@ export default function GoalForm() {
             toast.success('Goal added!');
             setInputValue("")
             setNotes(false)
+            closeModal();
           })
           .catch((err) => {
             console.error("Error adding goal:", err);

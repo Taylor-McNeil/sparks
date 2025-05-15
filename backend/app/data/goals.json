@@ -131,5 +131,21 @@
         "category": "Fitness",
         "memo": "",
         "date_attempted": "2025-05-07"
+    },
+    {
+        "id": "79e6aabf-87f8-4474-879b-00ac3529b681",
+        "goal_context": "Let me double Check",
+        "is_completed": false,
+        "category": "Fitness",
+        "memo": "",
+        "date_attempted": "2025-05-13"
+    },
+    {
+        "id": "b7a08a23-d4a6-40de-9aee-6cccc3314362",
+        "goal_context": "Testing the Focus",
+        "is_completed": false,
+        "category": "Fitness",
+        "memo": "",
+        "date_attempted": "2025-05-13"
     }
 ]

@@ -21,18 +21,26 @@
 html, body {
     height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 0px;
     background-color: var(--bg);
     color: var(--text);
+    font-family: 'Inter', sans-serif;
    
   }
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
 
+  button {
+    all: unset;
+    box-sizing: border-box;
+  }
+  
 
 .dashboard{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    "form form"
     "weekly-goals misc"
     "goal-review goal-review";
     
@@ -43,8 +51,28 @@ html, body {
     grid-area:form
 }
 
+.goal-row{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.goal-row span{
+  flex-grow: 1;
+}
+
+.goal{
+  border: solid #1a2a40 1px;
+  border-radius: 5px;
+  padding: 4px 8px;
+}
+
 .weekly-goals{
-    grid-area: weekly-goals
+    grid-area: weekly-goals;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 0px 15px;
 }
 
 .misc{
@@ -61,3 +89,4 @@ html, body {
   color: #777;
   transition: opacity 0.2s ease-in-out;
 }
+
