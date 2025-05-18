@@ -1,4 +1,4 @@
-import react, {useEffect, useState} from "react";
+import react, {useEffect, useMemo} from "react";
 import GoalReview from "./GoalReview";
 import WeeklyGoals from "./WeeklyGoals";
 import GoalForm from "./GoalForm.jsx";
@@ -28,9 +28,11 @@ export default function Dashboard() {
       }, [fetchGoals]);
 
 // 🧮 3. Filter into buckets
-  const currentWeekGoals = goals.filter(
+const currentWeekGoals = useMemo(() =>
+  goals.filter(
     goal => goal.date_attempted && isDateInThisWeek(goal.date_attempted)
-  )
+  ), [goals]
+);
 
   const pastGoals = goals.filter(
     goal => goal.date_attempted && !isDateInThisWeek(goal.date_attempted)

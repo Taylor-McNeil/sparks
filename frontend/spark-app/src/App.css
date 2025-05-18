@@ -67,13 +67,9 @@ html, body {
   padding: 4px 8px;
 }
 
-.weekly-goals{
-    grid-area: weekly-goals;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    padding: 0px 15px;
-}
+
+
+
 
 .misc{
     grid-area: misc

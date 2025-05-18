@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import useGoalStore from "../store/useGoalStore";
 import toast from 'react-hot-toast';
 import {ClipLoader} from 'react-spinners';
-import { Button, Checkbox, Flex, Group } from "@mantine/core";
+import { Button, Checkbox, Flex, Group, Paper } from "@mantine/core";
 import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faCheck} from '@fortawesome/free-solid-svg-icons'
 
@@ -69,7 +69,15 @@ export default function CurrentGoal({goal}){
     
 
     return(
-<div className="goal" id={goal.id}>
+<Paper
+ id={goal.id}
+ withBorder
+ radius="md"
+ shadow="xs"
+ bg="white"
+ px="md"
+ py="6"
+ >
   {isEditing ? (
     <div>
       <Group justify="space-between" align="center">
@@ -84,6 +92,7 @@ export default function CurrentGoal({goal}){
           variant="outline"
           size="xs"
           color="lime"
+          radius="sm"
           style={{ padding: "4px 8px" }} 
           onMouseDown={handleSubmission}>
           <FontAwesomeIcon icon={faCheck} />
@@ -105,9 +114,10 @@ export default function CurrentGoal({goal}){
 
       <Flex gap="xs" justify="flex-end" wrap="nowrap" align="center" >
         <Button
-          variant="outline"
+          variant="light"
           size="xs"
-          color="lime"
+          color="lime.9"
+          radius="sm"
           style={{ padding: "4px 8px" }}
           onClick={toggleEdit}
           disabled={loading.edit === goal.id}
@@ -120,9 +130,10 @@ export default function CurrentGoal({goal}){
         </Button>
 
         <Button
-          variant="outline"
+          variant="light"
           size="xs"
-          color="lime"
+          color="lime.9"
+          radius="sm"
           style={{ padding: "4px 8px" }}
           onClick={triggerDelete}
           disabled={loading.delete === goal.id}
@@ -136,7 +147,7 @@ export default function CurrentGoal({goal}){
       </Flex>
     </Flex>
   )}
-</div>
+</Paper>
         )
     }
     
